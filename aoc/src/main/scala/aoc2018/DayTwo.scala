@@ -2,7 +2,7 @@ object DayTwo extends App:
 
   import scala.io.Source
 
-  val lines: List[String] = Source.fromFile("aoc\\src\\resources\\Day02").getLines.toList
+  val lines: List[String] = Source.fromFile("aoc\\src\\resources\\aoc2018\\Day02").getLines.toList
 
   def countchar(id: String): List[Int] = {
     id.groupBy(identity).map((_, x) => x.length).toList
