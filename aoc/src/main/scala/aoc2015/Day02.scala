@@ -12,3 +12,4 @@ object Day02 extends App:
 
   println(lines)
   println(test(lines))
+  println("Hi")
