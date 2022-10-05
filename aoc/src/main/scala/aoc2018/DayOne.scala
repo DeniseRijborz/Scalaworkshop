@@ -2,7 +2,7 @@ object DayOne extends App:
 
   import scala.io.Source
 
-  val lines = Source.fromFile("aoc\\src\\resources\\Day01").getLines.toList.map(_.toString.toInt)
+  val lines = Source.fromFile("aoc\\src\\resources\\aoc2018\\Day01").getLines.toList.map(_.toString.toInt)
 
   def add(x: List[Int]): Int = {
     x.sum
