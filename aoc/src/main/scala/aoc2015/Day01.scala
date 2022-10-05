@@ -1,10 +1,14 @@
-object Day01_2015 extends App:
+object Day01 extends App:
   import scala.io.Source
   import scala.collection.mutable.ListBuffer
 
-  val lines = Source.fromFile("aoc\\src\\resources\\aoc2015\\Day01_2015").getLines.mkString
+  val lines: String =
+    Source
+      .fromFile("aoc/src/resources/aoc2015/Day01")
+      .getLines
+      .mkString
 
-  def findfloor(current: Int, instructions: String): Int = {
+  def findfloor(current: Int, instructions: String): Int = 
     if (instructions.isEmpty) {
       current
     }
@@ -17,9 +21,8 @@ object Day01_2015 extends App:
     else {
       0
     }
-  }
 
-  def positionbasement(current: Int, positions: ListBuffer[Int], instructions: String): Int = {
+  def positionbasement(current: Int, positions: ListBuffer[Int], instructions: String): Int = 
     if (instructions.isEmpty) {
       val result = positions.toList.indexOf(-1)
       result + 1
@@ -33,7 +36,7 @@ object Day01_2015 extends App:
     else {
       0
     }
-  }
 
   println(findfloor(0,lines))
   println(positionbasement(0,ListBuffer(),lines))
+  
