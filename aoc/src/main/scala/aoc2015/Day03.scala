@@ -6,55 +6,51 @@ import scala.collection.mutable.ListBuffer
 object Day03 extends App:
   val lines: String =
     Source
-      .fromFile("aoc/src/resources/aoc2015/Day03")
+      .fromResource("aoc2015/Day03")
       .getLines
       .mkString
 
-  def generateDirections(): Int =
-    var evenDirections: String = ""
-    var unevenDirections: String = ""
-    lines.zipWithIndex.foreach {
-      case (x, i) =>
-        if (i % 2 == 0)
-          evenDirections = evenDirections.concat(x.toString)
-        else
-          unevenDirections = unevenDirections.concat(x.toString)
+  def generateDirections(directions: String): Int =
+    val even: String = directions.zipWithIndex.foldLeft("") {
+      case (acc, (value, index)) if index % 2 == 0 => acc + value.toString
+      case (acc, (value, index))                   => acc
     }
-    val even: List[(Int,Int)] = location(0,0,evenDirections)
-    val oneven: List[(Int,Int)] = location(0,0,unevenDirections)
-    val coo: List[(Int,Int)] = even ++ oneven
-    coo.distinct.size
+    val uneven: String = directions.zipWithIndex.foldLeft("") {
+      case (acc, (value, index)) if index % 2 != 0 => acc + value.toString
+      case (acc, (value, index))                   => acc
+    }
+    val Santa: List[(Int,Int)] = location(0,0,even)
+    val RoboSanta: List[(Int,Int)] = location(0,0,uneven)
+    val coordinates: List[(Int,Int)] = Santa ++ RoboSanta
+    coordinates.distinct.size
 
 
   def location(currentx: Int, currenty: Int, directions: String, xAxis: List[Int] = List(0), yAxis: List[Int] = List(0)): List[(Int,Int)] =
-    if (directions.isEmpty) {
+    if directions.isEmpty then
       val coordinates = xAxis zip yAxis
       coordinates
-    }
-    else if (directions.head.toString == "^") {
-      val newx = currentx + 0
-      val newy = currenty + 1
-      location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
-    }
-    else if (directions.head.toString == "v") {
-      val newx = currentx + 0
-      val newy = currenty + -1
-      location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
-    }
-    else if (directions.head.toString == "<") {
-      val newx = currentx + -1
-      val newy = currenty + 0
-      location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
-    }
-    else if (directions.head.toString == ">") {
-      val newx = currentx + 1
-      val newy = currenty + 0
-      location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
-    }
-    else {
-      sys.error("Unknown command")
-    }
+    else
+    directions.head match
+      case '^' =>
+        val newx = currentx + 0
+        val newy = currenty + 1
+        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+      case 'v' =>
+        val newx = currentx + 0
+        val newy = currenty + -1
+        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+      case '<' =>
+        val newx = currentx + -1
+        val newy = currenty + 0
+        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+      case '>' =>
+        val newx = currentx + 1
+        val newy = currenty + 0
+        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+      case _ =>
+        sys.error("Unknown command")
 
-  println(location(0,0,lines).distinct.size)
-  println(generateDirections())
-
+  val answer1: Int = location(0,0,lines).distinct.size
+  println(answer1)
+  val answer2: Int = generateDirections(lines)
+  println(answer2)
