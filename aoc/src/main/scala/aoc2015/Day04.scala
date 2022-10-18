@@ -14,16 +14,9 @@ object Day04 extends App:
       .reverse.mkString
   }
 
-  def findhash(numbers: List[Int]): List[List[String]] =
-    val combinations: List[List[String]] =
-      numbers
-        .permutations
-        .toList
-        .map(x => "abcdef" + x.mkString(""))
-        .map(x => List(x,hash(x)))
-//        .filter(_.startsWith("00000"))
-    combinations
+  def findhash(input: String, zeroes: String, number: Int): Int =
+    if hash(input + number).startsWith(zeroes) then number
+    else findhash(input, zeroes, number + 1)
 
-    //val newcombi = combinations.filter(_.startsWith("00000"))
-  println(hash("abcdef609043"))
-  println(findhash(List(0,1,2,3,4,5,6,7,8,9)))
+  println(findhash("yzbqklnj","00000",0))
+  println(findhash("yzbqklnj","000000",0))
