@@ -4,7 +4,7 @@ object Day04 extends App:
 
   import java.security.MessageDigest
 
-  def hash(s: String) = {
+  def hash(s: String): String = {
     val m = java.security.MessageDigest.getInstance("MD5")
     val b = s.getBytes("UTF-8")
     m.update(b, 0, b.length)
