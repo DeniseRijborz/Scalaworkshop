@@ -10,47 +10,41 @@ object Day03 extends App:
       .getLines
       .mkString
 
-  def generateDirections(directions: String): Int =
-    val even: String = directions.zipWithIndex.foldLeft("") {
-      case (acc, (value, index)) if index % 2 == 0 => acc + value.toString
-      case (acc, (value, index))                   => acc
-    }
-    val uneven: String = directions.zipWithIndex.foldLeft("") {
-      case (acc, (value, index)) if index % 2 != 0 => acc + value.toString
-      case (acc, (value, index))                   => acc
-    }
-    val Santa: List[(Int,Int)] = location(0,0,even)
-    val RoboSanta: List[(Int,Int)] = location(0,0,uneven)
-    val coordinates: List[(Int,Int)] = Santa ++ RoboSanta
-    coordinates.distinct.size
+  case class Loc(x: Int, y: Int)
 
-
-  def location(currentx: Int, currenty: Int, directions: String, xAxis: List[Int] = List(0), yAxis: List[Int] = List(0)): List[(Int,Int)] =
+  def location(current: Loc, directions: String, locations: List[Loc]): List[Loc] =
     if directions.isEmpty then
-      val coordinates = xAxis zip yAxis
-      coordinates
+      locations
     else
     directions.head match
       case '^' =>
-        val newx = currentx + 0
-        val newy = currenty + 1
-        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+        val newLoc = Loc(current.x, current.y + 1)
+        location(newLoc, directions.tail, locations :+ newLoc)
       case 'v' =>
-        val newx = currentx + 0
-        val newy = currenty + -1
-        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+        val newLoc = Loc(current.x, current.y - 1)
+        location(newLoc, directions.tail, locations :+ newLoc)
       case '<' =>
-        val newx = currentx + -1
-        val newy = currenty + 0
-        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+        val newLoc = Loc(current.x - 1, current.y)
+        location(newLoc, directions.tail, locations :+ newLoc)
       case '>' =>
-        val newx = currentx + 1
-        val newy = currenty + 0
-        location(newx, newy, directions.tail, xAxis :+ newx, yAxis :+ newy)
+        val newLoc = Loc(current.x + 1, current.y)
+        location(newLoc, directions.tail, locations :+ newLoc)
       case _ =>
         sys.error("Unknown command")
 
-  val answer1: Int = location(0,0,lines).distinct.size
+  def generateDirections(directions: String): Int =
+    val Santa: String = directions.zipWithIndex.foldLeft("") {
+      case (acc, (value, index)) if index % 2 == 0 => acc + value.toString
+      case (acc, (value, index)) => acc
+    }
+    val RoboSanta: String = directions.zipWithIndex.foldLeft("") {
+      case (acc, (value, index)) if index % 2 != 0 => acc + value.toString
+      case (acc, (value, index)) => acc
+    }
+    val totalLocations: List[Loc] = location(Loc(0, 0), Santa, List()) ++ location(Loc(0, 0), RoboSanta, List())
+    totalLocations.distinct.size
+
+  val answer1: Int = location(Loc(0,0),lines,List()).distinct.size
   println(answer1)
   val answer2: Int = generateDirections(lines)
   println(answer2)
