@@ -4,7 +4,7 @@ object Day01 extends App:
 
   val lines: String =
     Source
-      .fromFile("aoc/src/resources/aoc2015/Day01")
+      .fromFile("aoc/src/main/resources/aoc2015/Day01")
       .getLines
       .mkString
 
