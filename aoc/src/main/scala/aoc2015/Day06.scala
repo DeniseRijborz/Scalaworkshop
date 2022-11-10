@@ -39,11 +39,14 @@ object Day06 extends App:
     List.tabulate(1000, 1000)((x, y) =>
       instructions
         .filter(_.within(x, y))
-        .foldLeft(startVal)(typeInstr)
-    )
+        .foldLeft(startVal)(typeInstr))
 
-  val answer1: Int = execute(false, firstInstructions).flatten.count(_ == true)
+  val answer1: Int = execute(false, firstInstructions)
+    .flatten
+    .count(_ == true)
   println(answer1)
 
-  val answer2: Int = execute(0, secondInstructions).flatten.sum
+  val answer2: Int = execute(0, secondInstructions)
+    .flatten
+    .sum
   println(answer2)
