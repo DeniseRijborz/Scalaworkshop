@@ -23,39 +23,27 @@ object Day06 extends App:
       .map(Instructions.fromString)
       .toList
 
-  val answer1: Int =
-    val grid: List[List[Boolean]] =
-      List.tabulate(1000,1000)((x,y) =>
-      instructions
-        .filter(_.within(x,y))
-        .foldLeft(false)((light,instructions) =>
-          instructions.cmd match
-            case "toggle" => !light
-            case "on" => true
-            case "off" => false
-        )
-      )
-    grid
-      .flatten
-      .count(_ == true)
+  def firstInstructions(light: Boolean, instructions: Instructions): Boolean =
+    instructions.cmd match
+      case "toggle" => !light
+      case "on" => true
+      case "off" => false
 
+  def secondInstructions(light: Int, instructions: Instructions): Int =
+    instructions.cmd match
+      case "toggle" => light + 2
+      case "on" => light + 1
+      case "off" => if light == 0 then light else light - 1
+
+  def execute[A](startVal: A, typeInstr: (A, Instructions) => A): List[List[A]] =
+    List.tabulate(1000, 1000)((x, y) =>
+      instructions
+        .filter(_.within(x, y))
+        .foldLeft(startVal)(typeInstr)
+    )
+
+  val answer1: Int = execute(false, firstInstructions).flatten.count(_ == true)
   println(answer1)
 
-  val answer2: Int =
-    val grid: List[List[Int]] =
-      List.tabulate(1000, 1000)((x, y) =>
-        instructions
-          .filter(_.within(x, y))
-          .foldLeft(0)((light, instructions) =>
-            instructions.cmd match
-              case "toggle" => light + 2
-              case "on" => light + 1
-              case "off" => if light == 0 then light else light - 1
-          )
-      )
-    grid
-      .flatten
-      .sum
-
+  val answer2: Int = execute(0, secondInstructions).flatten.sum
   println(answer2)
-
