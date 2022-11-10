@@ -37,10 +37,3 @@ object Day07 extends App:
 
   println(initialize())
   println(instructions)
-
-
-
-
-
-
-  println(123 | 456)
