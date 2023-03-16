@@ -11,7 +11,16 @@ The parser function uses three different options:
 - Op2:
 The solver recursion
 
-Option: if the element exists Some(), if it doesn't None
+0x hexadecimaal
+F 1111
+
+Option[]: if the element exists Some(), if it doesn't None -> way of handling absent values
+Unwrap optional values by implementing pattern matching:
+x match {
+  case Some(n) =>
+  case None    =>
+}
+To check if an optional value is None used isDefined or isEmpty.
 */
 
 object Day07 extends App:
