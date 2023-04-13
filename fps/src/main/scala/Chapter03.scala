@@ -138,4 +138,44 @@ def reverse[A](ns: List[A]): List[A] =
   foldLeft(ns,List[A]())((acc,x) => Cons(x, acc))
 // reverse(List(1,2,3,4,5)) ->
 // foldLeft(Cons(1,Cons(2,Cons(3,Cons(4,Cons(5,Nil))))), List[A]())((acc,x) => Cons(x,acc))
-//
+// Nog uitwerken
+
+// Exercise 3.13
+
+// Exercise 3.14
+// Implement append in terms of either foldLeft or foldRight
+def append[A](l: List[A], l2: List[A]): List[A] =
+  foldRight(l,l2)(Cons(_,_))
+
+// Exercise 3.15
+// Write a function that concatenates a list of lists into a single list.
+def concat[A](l: List[List[A]]): List[A] =
+  foldLeft(l, Nil: List[A])(append)
+
+// Exercise 3.16
+// Write a function that transforms a list of integers by adding 1 to each element.
+def add1(l: List[Int]): List[Int] =
+  foldRight(l, Nil: List[Int])((h,t)=>Cons(h + 1, t))
+
+// Exercise 3.17
+// Write a function that turns each value in a List[Double] into a String.
+def doubleToString(l: List[Double]): List[String] =
+  foldRight(l, Nil: List[String])((h,t)=> Cons(h.toString,t))
+
+// Exercise 3.18
+// Write a function map that generalizes modifying each element in a list while maintaining the structure of the list.
+def map[A,B](as: List[A])(f: A => B): List[B] =
+  foldRight(as, Nil: List[B])((h,t) => Cons(f(h),t))
+
+// Exercise 3.19
+// Write a function filter that removes elements from a list unless they satisfy a given predicate.
+def filter[A](as: List[A])(f: A => Boolean): List[A] =
+  foldRight(as, Nil: List[A])((h,t) => if f(h) then Cons(h,t) else t)
+
+def removeOdds(A: Int): Boolean =
+  A % 2 == 0
+// filter(List(1,2,3,4))(removeOdds) = Cons(2,(Cons(4,Nil))
+
+// Exercise 3.20
+// Write a function flatMap that works like map except that the function given will return a list instead of a
+// single result, and that list should be inserted into the final resulting list.
